@@ -5,13 +5,14 @@ import fetchPlanetsApi from '../services/PlanetApiRequest';
 
 function MyProvider({ children }) {
   const [planetsList, setPlanetsList] = useState([]);
+  const [filteredByName, setFilteredByName] = useState('');
 
   const handlePlanetList = async () => {
     const planetsLis = await fetchPlanetsApi();
     setPlanetsList(planetsLis);
   };
 
-  const values = { planetsList, handlePlanetList };
+  const values = { planetsList, filteredByName, setFilteredByName, handlePlanetList };
 
   return (
     <myContext.Provider value={ values }>

@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import myContext from '../context/myContext';
 
 function Table() {
-  const { planetsList, handlePlanetList } = useContext(myContext);
+  const { planetsList, filteredByName, handlePlanetList } = useContext(myContext);
   useEffect(() => {
     handlePlanetList();
   }, []);
@@ -28,6 +28,7 @@ function Table() {
       </thead>
       <tbody>
         { planetsList
+          .filter(({ name }) => name.toLowerCase().includes(filteredByName.toLowerCase()))
           .map(({
             name,
             rotation_period: rotationPeriod,
