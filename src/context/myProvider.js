@@ -5,14 +5,37 @@ import fetchPlanetsApi from '../services/PlanetApiRequest';
 
 function MyProvider({ children }) {
   const [planetsList, setPlanetsList] = useState([]);
+  // const [planetsListFiltered, setPlanetsListFiltered] = useState([]);
   const [filteredByName, setFilteredByName] = useState('');
+  // const [filteredByData, setFilteredByData] = useState('');
 
   const handlePlanetList = async () => {
     const planetsLis = await fetchPlanetsApi();
     setPlanetsList(planetsLis);
+    // setPlanetsListFiltered(planetsLis);
   };
 
-  const values = { planetsList, filteredByName, setFilteredByName, handlePlanetList };
+  // const filterByOptions = ({ dataChosedFilter, valueChosedFilter, numChosedFilter }) => {
+  //   const filterData = planetsList.filter((planet) => {
+  //     if (valueChosedFilter === 'maiorQue') {
+  //       return Number(planet[dataChosedFilter]) > numChosedFilter;
+  //     }
+  //     if (valueChosedFilter === 'menorQue') {
+  //       return Number(planet[dataChosedFilter]) < numChosedFilter;
+  //     }
+  //     if (valueChosedFilter === 'igualA') {
+  //       return Number(planet[dataChosedFilter]) === numChosedFilter;
+  //     }
+  //     return setPlanetsList(filterData);
+  //   });
+  // };
+
+  const values = {
+    planetsList,
+    filteredByName,
+    setPlanetsList,
+    setFilteredByName,
+    handlePlanetList };
 
   return (
     <myContext.Provider value={ values }>

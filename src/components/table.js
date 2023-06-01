@@ -2,7 +2,10 @@ import { useContext, useEffect } from 'react';
 import myContext from '../context/myContext';
 
 function Table() {
-  const { planetsList, filteredByName, handlePlanetList } = useContext(myContext);
+  const {
+    planetsList,
+    filteredByName,
+    handlePlanetList } = useContext(myContext);
   useEffect(() => {
     handlePlanetList();
   }, []);
