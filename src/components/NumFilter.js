@@ -2,38 +2,52 @@ import { useState, useContext } from 'react';
 import myContext from '../context/myContext';
 
 function NumFilter() {
-  const { planetsList, setPlanetsList } = useContext(myContext);
-  const [columnFilter, setcolumnFilter] = useState('population');
-  const [operatorFilter, setOperatorFilter] = useState('maior que');
-  const [valueToFilter, setValueToFilter] = useState('0');
+  const { selectedFilters,
+    setPlanetsListFiltered,
+    planetsListFiltered,
+    setSelectedFilters } = useContext(myContext);
+
+  const [dataFiltered, setDataFiltered] = useState({
+    columnFilter: 'population',
+    operatorFilter: 'maior que',
+    valueToFilter: '0',
+  });
 
   const handleClick = () => {
-    // console.log(columnFilter, operatorFilter, valueToFilter);
-    const filterData = planetsList.filter((planet) => {
-      if (operatorFilter === 'maior que') {
-        return Number(planet[columnFilter]) > Number(valueToFilter);
+    const filterData = planetsListFiltered.filter((planet) => {
+      if (dataFiltered.operatorFilter === 'maior que') {
+        return Number(planet[dataFiltered
+          .columnFilter]) > Number(dataFiltered.valueToFilter);
       }
-      if (operatorFilter === 'menor que') {
-        return Number(planet[columnFilter]) < Number(valueToFilter);
+      if (dataFiltered.operatorFilter === 'menor que') {
+        return Number(planet[dataFiltered
+          .columnFilter]) < Number(dataFiltered.valueToFilter);
       }
-      if (operatorFilter === 'igual a') {
-        return Number(planet[columnFilter]) === Number(valueToFilter);
+      if (dataFiltered.operatorFilter === 'igual a') {
+        return Number(planet[dataFiltered
+          .columnFilter]) === Number(dataFiltered.valueToFilter);
       }
       return true;
     });
-    setPlanetsList(filterData);
-    setcolumnFilter('population');
-    setOperatorFilter('maiorQue');
-    setValueToFilter('0');
+    setSelectedFilters([...selectedFilters, dataFiltered]);
+    setPlanetsListFiltered(filterData);
+    setDataFiltered({
+      columnFilter: 'population',
+      operatorFilter: 'maior que',
+      valueToFilter: '0',
+    });
   };
 
   return (
     <div>
       <select
         name="columnToFilter"
-        value={ columnFilter }
+        value={ dataFiltered.columnFilter }
         data-testid="column-filter"
-        onChange={ ({ target }) => setcolumnFilter(target.value) }
+        onChange={ ({ target }) => setDataFiltered({
+          ...dataFiltered,
+          columnFilter: target.value,
+        }) }
       >
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
@@ -45,8 +59,11 @@ function NumFilter() {
       <select
         name="operatorToFilter"
         data-testid="comparison-filter"
-        value={ operatorFilter }
-        onChange={ ({ target }) => setOperatorFilter(target.value) }
+        value={ dataFiltered.operatorFilter }
+        onChange={ ({ target }) => setDataFiltered({
+          ...dataFiltered,
+          operatorFilter: target.value,
+        }) }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -55,9 +72,12 @@ function NumFilter() {
 
       <input
         type="number"
-        value={ valueToFilter }
+        value={ dataFiltered.valueToFilter }
         data-testid="value-filter"
-        onChange={ ({ target }) => setValueToFilter(target.value) }
+        onChange={ ({ target }) => setDataFiltered({
+          ...dataFiltered,
+          valueToFilter: target.value,
+        }) }
       />
 
       <button

@@ -5,14 +5,15 @@ import fetchPlanetsApi from '../services/PlanetApiRequest';
 
 function MyProvider({ children }) {
   const [planetsList, setPlanetsList] = useState([]);
-  // const [planetsListFiltered, setPlanetsListFiltered] = useState([]);
+  const [planetsListFiltered, setPlanetsListFiltered] = useState([]);
   const [filteredByName, setFilteredByName] = useState('');
+  const [selectedFilters, setSelectedFilters] = useState([]);
   // const [filteredByData, setFilteredByData] = useState('');
 
   const handlePlanetList = async () => {
     const planetsLis = await fetchPlanetsApi();
     setPlanetsList(planetsLis);
-    // setPlanetsListFiltered(planetsLis);
+    setPlanetsListFiltered(planetsLis);
   };
 
   // const filterByOptions = ({ dataChosedFilter, valueChosedFilter, numChosedFilter }) => {
@@ -33,6 +34,10 @@ function MyProvider({ children }) {
   const values = {
     planetsList,
     filteredByName,
+    planetsListFiltered,
+    selectedFilters,
+    setSelectedFilters,
+    setPlanetsListFiltered,
     setPlanetsList,
     setFilteredByName,
     handlePlanetList };

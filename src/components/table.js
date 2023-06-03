@@ -4,8 +4,10 @@ import myContext from '../context/myContext';
 function Table() {
   const {
     planetsList,
+    planetsListFiltered,
     filteredByName,
-    handlePlanetList } = useContext(myContext);
+    handlePlanetList,
+    selectedFilters } = useContext(myContext);
   useEffect(() => {
     handlePlanetList();
   }, []);
@@ -30,7 +32,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { planetsList
+        { (!selectedFilters.length ? planetsList : planetsListFiltered)
           .filter(({ name }) => name.toLowerCase().includes(filteredByName.toLowerCase()))
           .map(({
             name,
