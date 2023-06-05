@@ -13,6 +13,12 @@ function NumFilter() {
     valueToFilter: '0',
   });
 
+  const optionsCol = ['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
+
   const handleClick = () => {
     const filterData = planetsListFiltered.filter((planet) => {
       if (dataFiltered.operatorFilter === 'maior que') {
@@ -38,6 +44,9 @@ function NumFilter() {
     });
   };
 
+  const optionFilter = (option) => !selectedFilters
+    .find((filtro) => option === filtro.columnFilter);
+
   return (
     <div>
       <select
@@ -49,11 +58,10 @@ function NumFilter() {
           columnFilter: target.value,
         }) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {optionsCol.filter(optionFilter).map((columnFilter) => (
+          <option value={ columnFilter } key={ columnFilter }>
+            {columnFilter}
+          </option>))}
       </select>
 
       <select
