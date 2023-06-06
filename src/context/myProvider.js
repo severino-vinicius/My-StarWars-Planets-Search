@@ -16,21 +16,6 @@ function MyProvider({ children }) {
     setPlanetsListFiltered(planetsLis);
   };
 
-  // const filterByOptions = ({ dataChosedFilter, valueChosedFilter, numChosedFilter }) => {
-  //   const filterData = planetsList.filter((planet) => {
-  //     if (valueChosedFilter === 'maiorQue') {
-  //       return Number(planet[dataChosedFilter]) > numChosedFilter;
-  //     }
-  //     if (valueChosedFilter === 'menorQue') {
-  //       return Number(planet[dataChosedFilter]) < numChosedFilter;
-  //     }
-  //     if (valueChosedFilter === 'igualA') {
-  //       return Number(planet[dataChosedFilter]) === numChosedFilter;
-  //     }
-  //     return setPlanetsList(filterData);
-  //   });
-  // };
-
   const values = {
     planetsList,
     filteredByName,

@@ -1,10 +1,10 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import myContext from '../context/myContext';
 
 function NumFilter() {
   const { selectedFilters,
     setPlanetsListFiltered,
-    planetsListFiltered,
+    planetsList,
     setSelectedFilters } = useContext(myContext);
 
   const [dataFiltered, setDataFiltered] = useState({
@@ -20,29 +20,35 @@ function NumFilter() {
     'surface_water'];
 
   const handleClick = () => {
-    const filterData = planetsListFiltered.filter((planet) => {
-      if (dataFiltered.operatorFilter === 'maior que') {
-        return Number(planet[dataFiltered
-          .columnFilter]) > Number(dataFiltered.valueToFilter);
-      }
-      if (dataFiltered.operatorFilter === 'menor que') {
-        return Number(planet[dataFiltered
-          .columnFilter]) < Number(dataFiltered.valueToFilter);
-      }
-      if (dataFiltered.operatorFilter === 'igual a') {
-        return Number(planet[dataFiltered
-          .columnFilter]) === Number(dataFiltered.valueToFilter);
-      }
-      return true;
-    });
-    setSelectedFilters([...selectedFilters, dataFiltered]);
-    setPlanetsListFiltered(filterData);
+    setSelectedFilters((prev) => [...prev, dataFiltered]);
     setDataFiltered({
       columnFilter: 'population',
       operatorFilter: 'maior que',
       valueToFilter: '0',
     });
   };
+
+  useEffect(() => {
+    let planetsFiltered = planetsList;
+    selectedFilters.forEach(({
+      operatorFilter,
+      columnFilter,
+      valueToFilter }) => {
+      planetsFiltered = planetsFiltered.filter((planet) => {
+        if (operatorFilter === 'maior que') {
+          return Number(planet[columnFilter]) > Number(valueToFilter);
+        }
+        if (operatorFilter === 'menor que') {
+          return Number(planet[columnFilter]) < Number(valueToFilter);
+        }
+        if (operatorFilter === 'igual a') {
+          return Number(planet[columnFilter]) === Number(valueToFilter);
+        }
+        return false;
+      });
+      setPlanetsListFiltered(planetsFiltered);
+    });
+  }, [selectedFilters]);
 
   const optionFilter = (option) => !selectedFilters
     .find((filtro) => option === filtro.columnFilter);
@@ -94,6 +100,34 @@ function NumFilter() {
         onClick={ handleClick }
       >
         Filtrar
+      </button>
+      {selectedFilters.map(({ columnFilter, operatorFilter, valueToFilter }, index) => (
+        <div key={ index } data-testid="filter">
+          <span>
+            {columnFilter}
+            {operatorFilter}
+            {valueToFilter}
+          </span>
+          <button
+            onClick={ () => {
+              const cloneArray = [...selectedFilters];
+              cloneArray.splice(index, 1);
+              setSelectedFilters(cloneArray);
+            } }
+          >
+            x
+          </button>
+        </div>
+      ))}
+
+      <button
+        onClick={ () => {
+          const clearAllFilters = [];
+          setSelectedFilters(clearAllFilters);
+        } }
+        data-testid="button-remove-filters"
+      >
+        Remover todas filtragens
       </button>
     </div>
   );
