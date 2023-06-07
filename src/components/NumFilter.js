@@ -41,10 +41,7 @@ function NumFilter() {
         if (operatorFilter === 'menor que') {
           return Number(planet[columnFilter]) < Number(valueToFilter);
         }
-        if (operatorFilter === 'igual a') {
-          return Number(planet[columnFilter]) === Number(valueToFilter);
-        }
-        return false;
+        return Number(planet[columnFilter]) === Number(valueToFilter);
       });
       setPlanetsListFiltered(planetsFiltered);
     });
